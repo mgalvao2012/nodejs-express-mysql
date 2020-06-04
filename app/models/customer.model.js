@@ -5,6 +5,10 @@ const Customer = function(customer) {
   this.email = customer.email;
   this.name = customer.name;
   this.active = customer.active;
+  this.nome_do_cartao = customer.nome_do_cartao;
+  this.numero_cartao = customer.numero_cartao;
+  this.ccv = customer.ccv;
+  this.data_expiracao = customer.data_expiracao;
 };
 
 Customer.create = (newCustomer, result) => {
@@ -54,8 +58,8 @@ Customer.getAll = result => {
 
 Customer.updateById = (id, customer, result) => {
   sql.query(
-    "UPDATE customers SET email = ?, name = ?, active = ? WHERE id = ?",
-    [customer.email, customer.name, customer.active, id],
+    "UPDATE customers SET email = ?, name = ?, active = ?, nome_do_cartao = ?, numero_cartao = ?, ccv = ?, data_expiracao = ? WHERE id = ?",
+    [customer.email, customer.name, customer.active, customer.nome_do_cartao, customer.numero_cartao, customer.ccv, customer.data_expiracao, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
