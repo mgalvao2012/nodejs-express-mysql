@@ -18,4 +18,10 @@ module.exports = app => {
 
   // Create a new Customer
   app.delete("/customers", customers.deleteAll);
+
+  var cb0 = function (req, res, next) {
+  console.log('CB0');
+  next();
+}
+
 };
