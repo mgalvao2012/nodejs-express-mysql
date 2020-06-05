@@ -52,7 +52,9 @@ exports.findOne = (req, res) => {
           message: "Error retrieving Customer with id " + req.params.customerId
         });
       }
-    } else res.send(data);
+    } else {
+      res.send(data);
+    }
   });
 };
 
