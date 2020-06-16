@@ -12,6 +12,7 @@ module.exports = app => {
 
   // Update a Customer with customerId
   app.put("/customers/:customerId", customers.update);
+  app.post("/customers/:customerId", customers.update);
 
   // Delete a Customer with customerId
   app.delete("/customers/:customerId", customers.delete);

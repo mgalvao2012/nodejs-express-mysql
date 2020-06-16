@@ -1,0 +1,26 @@
+<h2>Protheus</h2>
+<br/>
+<table border="1">
+    <tr>
+        <td>Nome</td>
+        <td>Email</td>
+        <td>Cartão</td>
+        <td>vencimento</td>
+        <td>CCV</td>
+        <td>Active</td>
+        <td>Nome no cartão</td>
+        <td></td>
+    </tr>
+    <% data.forEach(function(details) { %>    
+    <tr>
+        <td><%- details.name %></td>
+        <td><%- details.email %></td>
+        <td><%- details.numero_cartao %></td>
+        <td><%- details.data_expiracao %></td>
+        <td><%- details.ccv %></td>
+        <td><%- details.active %></td>
+        <td><%- details.nome_do_cartao %></td>
+        <td><a href="/protheus/<%- details.id %>">editar</a></td>
+    </tr>
+    <% }) %>
+</table>
