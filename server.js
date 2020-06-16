@@ -11,8 +11,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to bezkoder application!" });
 });
+
+app.get("/protheus", (req, res) => {
+	res.render('protheus', {data: []});
+});
+  
 
 require("./app/routes/customer.routes.js")(app);
 
@@ -26,6 +31,12 @@ var getJSON = require('get-json')
 app.get('/protheus/:customerId', function(req, res){  
 	getJSON(req.protocol + '://' + req.get('host') + '/customers/'+req.params.customerId, function(error, response){
 	  res.render('protheus', {data: response});
+	})
+});
+
+app.get('/listarProtheus', function(req, res){  
+	getJSON(req.protocol + '://' + req.get('host') + '/customers', function(error, response){
+	  res.render('listarDados', {data: response});
 	})
 });
 
