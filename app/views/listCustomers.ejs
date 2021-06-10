@@ -1,5 +1,6 @@
 <h2>Customers</h2>
 <br/>
+<a href="#" onclick="javascript:window.history.back();">voltar</a> 
 <table border="1">
     <tr>
         <td>Nome</td>
@@ -11,11 +12,10 @@
         <td>Active</td>
         <td>Nome no cartão</td>
 -->        
-        <td></td>
     </tr>
     <% data.forEach(function(details) { %>    
     <tr>
-        <td><%- details.name %></td>
+        <td><a href="/customer/<%- details.id %>"><%- details.name %></a></td>
         <td><%- details.email %></td>
 <!--
         <td><%- details.numero_cartao %></td>
@@ -23,8 +23,7 @@
         <td><%- details.ccv %></td>
         <td><%- details.active %></td>
         <td><%- details.nome_do_cartao %></td>
--->        
-        <td><a href="/customer/<%- details.id %>">view</a></td>
+-->                
     </tr>
     <% }) %>
 </table>
