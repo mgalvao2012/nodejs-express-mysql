@@ -1,0 +1,16 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "askForPassword": true,
+            "driver": "MySQL",
+            "name": "nodejs-express-mysql-mgalvao",
+            "connectString": "mysql://ba3d7a4416513c:172d6fc5@us-cdbr-east-05.cleardb.net/heroku_48fd9b3436559f8?reconnect=true"
+        }
+    ]
+}
