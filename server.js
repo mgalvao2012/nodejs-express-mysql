@@ -11,11 +11,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application!" });
+  res.json({ message: "Welcome to nodejs application!" });
 });
 
-app.get("/protheus", (req, res) => {
-	res.render('protheus', {data: []});
+app.get("/erp", (req, res) => {
+	res.render('erp', {data: []});
 });
   
 
@@ -28,13 +28,13 @@ app.set('view engine','ejs');
 app.set('views','./app/views');
 
 var getJSON = require('get-json')
-app.get('/protheus/:customerId', function(req, res){  
+app.get('/erp/:customerId', function(req, res){  
 	getJSON(req.protocol + '://' + req.get('host') + '/customers/'+req.params.customerId, function(error, response){
-	  res.render('protheus', {data: response});
+	  res.render('erp', {data: response});
 	})
 });
 
-app.get('/listarProtheus', function(req, res){  
+app.get('/listarClientesERP', function(req, res){  
 	getJSON(req.protocol + '://' + req.get('host') + '/customers', function(error, response){
 	  res.render('listarDados', {data: response});
 	})
