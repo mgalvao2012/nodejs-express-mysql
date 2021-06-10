@@ -13,11 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to nodejs application!" });
 });
-/*
-app.get("/e", (req, res) => {
-	res.render('erp', {data: []});
-});
-*/  
 
 require("./app/routes/customer.routes.js")(app);
 
