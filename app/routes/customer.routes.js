@@ -17,7 +17,7 @@ module.exports = app => {
   // Delete a Customer with customerId
   app.delete("/customers/:customerId", customers.delete);
 
-  // Create a new Customer
+  // Delete all Customers
   app.delete("/customers", customers.deleteAll);
 
   var cb0 = function (req, res, next) {
