@@ -33,7 +33,7 @@ Customer.findById = (customerId, result) => {
     }
 
     if (res.length) {
-      console.log("found customer: ", res[0]);
+      //console.log("found customer: ", res[0]);
       result(null, res[0]);
       return;
     }
@@ -51,7 +51,7 @@ Customer.getAll = result => {
       return;
     }
 
-    console.log("customers: ", res);
+    //console.log("customers: ", res);
     result(null, res);
   });
 };
@@ -73,7 +73,7 @@ Customer.updateById = (id, customer, result) => {
         return;
       }
 
-      console.log("updated customer: ", { id: id, ...customer });
+      //console.log("updated customer: ", { id: id, ...customer });
       result(null, { id: id, ...customer });
     }
   );
@@ -93,7 +93,7 @@ Customer.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted customer with id: ", id);
+    //console.log("deleted customer with id: ", id);
     result(null, res);
   });
 };
@@ -106,7 +106,7 @@ Customer.removeAll = result => {
       return;
     }
 
-    console.log(`deleted ${res.affectedRows} customers`);
+    //console.log(`deleted ${res.affectedRows} customers`);
     result(null, res);
   });
 };
