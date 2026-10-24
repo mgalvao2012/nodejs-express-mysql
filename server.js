@@ -1,13 +1,12 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 
 const app = express();
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
@@ -17,8 +16,6 @@ app.get("/", (req, res) => {
 require("./app/routes/customer.routes.js")(app);
 
 // create ejs
-var engine = require('ejs-locals');
-app.engine('ejs',engine);
 app.set('view engine','ejs');
 app.set('views','./app/views');
 
