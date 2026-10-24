@@ -1,46 +1,7 @@
-const express = require("express");
-
-const app = express();
-
-// parse requests of content-type - application/json
-app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to nodejs application!" });
-});
-
-// every route registered below requires the API key
-app.use(require("./app/middleware/auth.js"));
-
-require("./app/routes/customer.routes.js")(app);
-
-// create ejs
-app.set('view engine','ejs');
-app.set('views','./app/views');
-
-const Customer = require("./app/models/customer.model.js");
-app.get('/customer/:customerId', function(req, res){
-	Customer.findById(req.params.customerId, function(error, data){
-	  if (error) return res.status(error.kind === "not_found" ? 404 : 500).send("Customer not available.");
-	  res.render('customer', {data: data});
-	})
-});
-
-app.get('/listCustomers', function(req, res){
-	Customer.getAll(function(error, data){
-	  if (error) return res.status(500).send("Customers not available.");
-	  res.render('listCustomers', {data: data});
-	})
-});
+const app = require("./app.js");
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-
