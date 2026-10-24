@@ -11,13 +11,13 @@
 	</tr>
 	<% data.forEach(function(details) { %>
 	<tr>
-		<td><a href="/customer/<%- details.id %>"><%- details.name %></a></td>
-		<td><%- details.email %></td>
-		<td><%- details.numero_cartao %></td>
-		<td><%- details.data_expiracao %></td>
-		<td><%- details.ccv %></td>
-		<td><%- details.active %></td>
-		<td><%- details.nome_do_cartao %></td>
+		<td><a href="/customer/<%= details.id %>"><%= details.name %></a></td>
+		<td><%= details.email %></td>
+		<td><%= details.numero_cartao %></td>
+		<td><%= details.data_expiracao %></td>
+		<td><%= details.ccv %></td>
+		<td><%= details.active %></td>
+		<td><%= details.nome_do_cartao %></td>
 	</tr>
 	<% }) %>
 </table>

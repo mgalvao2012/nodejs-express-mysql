@@ -19,7 +19,9 @@
     "dotenv": "^18.0.7",
     "ejs-locals": "^1.0.2",
     "express": "^4.17.1",
-    "get-json": "^1.0.1",
     "mysql2": "^3.24.5"
+  },
+  "devDependencies": {
+    "wrangler": "^4.151.3"
   }
 }
