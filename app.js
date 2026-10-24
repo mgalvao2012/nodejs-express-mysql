@@ -1,5 +1,4 @@
 const express = require("express");
-const path = require("path");
 
 const app = express();
 
@@ -8,10 +7,6 @@ app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
-// create ejs
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "app/views"));
 
 // simple route
 app.get("/", (req, res) => {
