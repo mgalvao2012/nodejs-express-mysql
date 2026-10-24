@@ -11,103 +11,44 @@ const Customer = function(customer) {
   this.data_expiracao = customer.data_expiracao;
 };
 
-// log only code/message: the full error object carries the SQL with bound values (card data)
-const logError = err => console.error("error: ", err.code, err.message);
+// only fields present in the request; undefined would be written as NULL
+const definedFields = customer =>
+  Object.fromEntries(Object.entries(customer).filter(([, v]) => v !== undefined));
 
-Customer.create = (newCustomer, result) => {
-  sql.query("INSERT INTO customers SET ?", newCustomer, (err, res) => {
-    if (err) {
-      logError(err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created customer: ", res.insertId);
-    result(null, { id: res.insertId, ...newCustomer });
-  });
+Customer.create = async newCustomer => {
+  const fields = definedFields(newCustomer);
+  const [res] = await sql.query("INSERT INTO customers SET ?", [fields]);
+  console.log("created customer: ", res.insertId);
+  return Customer.findById(res.insertId);
 };
 
-Customer.findById = (customerId, result) => {
-  sql.query("SELECT * FROM customers WHERE id = ?", [customerId], (err, res) => {
-    if (err) {
-      logError(err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Customer with the id
-    result({ kind: "not_found" }, null);
-  });
+// resolves to null when not found
+Customer.findById = async customerId => {
+  const [rows] = await sql.query("SELECT * FROM customers WHERE id = ?", [customerId]);
+  return rows[0] || null;
 };
 
-Customer.getAll = result => {
-  sql.query("SELECT * FROM customers", (err, res) => {
-    if (err) {
-      logError(err);
-      result(err, null);
-      return;
-    }
-
-    result(null, res);
-  });
+Customer.getAll = async () => {
+  const [rows] = await sql.query("SELECT * FROM customers");
+  return rows;
 };
 
-Customer.updateById = (id, customer, result) => {
-  // only fields present in the request; undefined would be written as NULL
-  const fields = Object.fromEntries(
-    Object.entries(customer).filter(([, v]) => v !== undefined)
-  );
-
-  sql.query("UPDATE customers SET ? WHERE id = ?", [fields, id], (err, res) => {
-    if (err) {
-      logError(err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    Customer.findById(id, result);
-  });
+// resolves to null when not found
+Customer.updateById = async (id, customer) => {
+  const [res] = await sql.query("UPDATE customers SET ? WHERE id = ?", [definedFields(customer), id]);
+  if (res.affectedRows == 0) return null;
+  return Customer.findById(id);
 };
 
-Customer.remove = (id, result) => {
-  sql.query("DELETE FROM customers WHERE id = ?", [id], (err, res) => {
-    if (err) {
-      logError(err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    result(null, res);
-  });
+// resolves to false when not found
+Customer.remove = async id => {
+  const [res] = await sql.query("DELETE FROM customers WHERE id = ?", [id]);
+  return res.affectedRows > 0;
 };
 
-Customer.removeAll = result => {
-  sql.query("DELETE FROM customers", (err, res) => {
-    if (err) {
-      logError(err);
-      result(err, null);
-      return;
-    }
-
-    result(null, res);
-  });
+Customer.removeAll = async () => {
+  const [res] = await sql.query("DELETE FROM customers");
+  return res.affectedRows;
 };
 
 module.exports = Customer;
