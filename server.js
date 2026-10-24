@@ -22,16 +22,18 @@ app.engine('ejs',engine);
 app.set('view engine','ejs');
 app.set('views','./app/views');
 
-var getJSON = require('get-json')
-app.get('/customer/:customerId', function(req, res){  
-	getJSON(req.protocol + '://' + req.get('host') + '/customers/'+req.params.customerId, function(error, response){
-	  res.render('customer', {data: response});
+const Customer = require("./app/models/customer.model.js");
+app.get('/customer/:customerId', function(req, res){
+	Customer.findById(req.params.customerId, function(error, data){
+	  if (error) return res.status(error.kind === "not_found" ? 404 : 500).send("Customer not available.");
+	  res.render('customer', {data: data});
 	})
 });
 
-app.get('/listCustomers', function(req, res){  
-	getJSON(req.protocol + '://' + req.get('host') + '/customers', function(error, response){
-	  res.render('listCustomers', {data: response});
+app.get('/listCustomers', function(req, res){
+	Customer.getAll(function(error, data){
+	  if (error) return res.status(500).send("Customers not available.");
+	  res.render('listCustomers', {data: data});
 	})
 });
 

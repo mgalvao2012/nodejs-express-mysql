@@ -1,10 +1,12 @@
 const Customer = require("../models/customer.model.js");
 
+const isEmpty = body => !body || Object.keys(body).length === 0;
+
 // Create and Save a new Customer
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body) {
-    res.status(400).send({
+  if (isEmpty(req.body)) {
+    return res.status(400).send({
       message: "Content can not be empty!"
     });
   }
@@ -20,8 +22,7 @@ exports.create = (req, res) => {
   Customer.create(customer, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Customer."
+        message: "Some error occurred while creating the Customer."
       });
     else res.send(data);
   });
@@ -32,8 +33,7 @@ exports.findAll = (req, res) => {
   Customer.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving customers."
+        message: "Some error occurred while retrieving customers."
       });
     else res.send(data);
   });
@@ -61,13 +61,11 @@ exports.findOne = (req, res) => {
 // Update a Customer identified by the customerId in the request
 exports.update = (req, res) => {
   // Validate Request
-  if (!req.body) {
-    res.status(400).send({
+  if (isEmpty(req.body)) {
+    return res.status(400).send({
       message: "Content can not be empty!"
     });
   }
-
-  console.log(req.body);
 
   Customer.updateById(
     req.params.customerId,
@@ -110,8 +108,7 @@ exports.deleteAll = (req, res) => {
   Customer.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all customers."
+        message: "Some error occurred while removing all customers."
       });
     else res.send({ message: `All Customers were deleted successfully!` });
   });

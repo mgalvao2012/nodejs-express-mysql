@@ -11,29 +11,31 @@ const Customer = function(customer) {
   this.data_expiracao = customer.data_expiracao;
 };
 
+// log only code/message: the full error object carries the SQL with bound values (card data)
+const logError = err => console.error("error: ", err.code, err.message);
+
 Customer.create = (newCustomer, result) => {
   sql.query("INSERT INTO customers SET ?", newCustomer, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      logError(err);
       result(err, null);
       return;
     }
 
-    console.log("created customer: ", { id: res.insertId, ...newCustomer });
+    console.log("created customer: ", res.insertId);
     result(null, { id: res.insertId, ...newCustomer });
   });
 };
 
 Customer.findById = (customerId, result) => {
-  sql.query(`SELECT * FROM customers WHERE id = ${customerId}`, (err, res) => {
+  sql.query("SELECT * FROM customers WHERE id = ?", [customerId], (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      logError(err);
       result(err, null);
       return;
     }
 
     if (res.length) {
-      //console.log("found customer: ", res[0]);
       result(null, res[0]);
       return;
     }
@@ -46,12 +48,11 @@ Customer.findById = (customerId, result) => {
 Customer.getAll = result => {
   sql.query("SELECT * FROM customers", (err, res) => {
     if (err) {
-      console.log("error: ", err);
-      result(null, err);
+      logError(err);
+      result(err, null);
       return;
     }
 
-    //console.log("customers: ", res);
     result(null, res);
   });
 };
@@ -62,8 +63,8 @@ Customer.updateById = (id, customer, result) => {
     [customer.email, customer.name, customer.active, customer.nome_do_cartao, customer.numero_cartao, customer.ccv, customer.data_expiracao, id],
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
-        result(null, err);
+        logError(err);
+        result(err, null);
         return;
       }
 
@@ -73,17 +74,16 @@ Customer.updateById = (id, customer, result) => {
         return;
       }
 
-      //console.log("updated customer: ", { id: id, ...customer });
       result(null, { id: id, ...customer });
     }
   );
 };
 
 Customer.remove = (id, result) => {
-  sql.query("DELETE FROM customers WHERE id = ?", id, (err, res) => {
+  sql.query("DELETE FROM customers WHERE id = ?", [id], (err, res) => {
     if (err) {
-      console.log("error: ", err);
-      result(null, err);
+      logError(err);
+      result(err, null);
       return;
     }
 
@@ -93,7 +93,6 @@ Customer.remove = (id, result) => {
       return;
     }
 
-    //console.log("deleted customer with id: ", id);
     result(null, res);
   });
 };
@@ -101,12 +100,11 @@ Customer.remove = (id, result) => {
 Customer.removeAll = result => {
   sql.query("DELETE FROM customers", (err, res) => {
     if (err) {
-      console.log("error: ", err);
-      result(null, err);
+      logError(err);
+      result(err, null);
       return;
     }
 
-    //console.log(`deleted ${res.affectedRows} customers`);
     result(null, res);
   });
 };
