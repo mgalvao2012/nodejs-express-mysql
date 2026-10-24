@@ -1,6 +1,8 @@
 node_modules
-package-lock.json
-.env
-.env.*
+
+# env files: anything starting with .env, except the template
+.env*
 !.env.example
+
 .vscode/settings.json
+.DS_Store

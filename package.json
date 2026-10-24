@@ -4,7 +4,9 @@
   "description": "Node.js Restful CRUD API with Node.js, Express and MySQL",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "jest"
   },
   "keywords": [
     "nodejs",
@@ -22,5 +24,8 @@
   },
   "devDependencies": {
     "wrangler": "^4.151.3"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
