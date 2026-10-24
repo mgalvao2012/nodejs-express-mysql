@@ -13,6 +13,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to nodejs application!" });
 });
 
+// every route registered below requires the API key
+app.use(require("./app/middleware/auth.js"));
+
 require("./app/routes/customer.routes.js")(app);
 
 // create ejs
