@@ -1,6 +1,6 @@
 # Node.js REST API with Express & MySQL
 
-CRUD API for customers, with server-rendered EJS views.
+CRUD API for customers (Express 5), with server-rendered HTML views (plain JS template functions in `app/views/`, no template engine).
 
 ## Requirements
 - Node.js >= 20
