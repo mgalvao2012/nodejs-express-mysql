@@ -58,25 +58,26 @@ Customer.getAll = result => {
 };
 
 Customer.updateById = (id, customer, result) => {
-  sql.query(
-    "UPDATE customers SET email = ?, name = ?, active = ?, nome_do_cartao = ?, numero_cartao = ?, ccv = ?, data_expiracao = ? WHERE id = ?",
-    [customer.email, customer.name, customer.active, customer.nome_do_cartao, customer.numero_cartao, customer.ccv, customer.data_expiracao, id],
-    (err, res) => {
-      if (err) {
-        logError(err);
-        result(err, null);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found Customer with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      result(null, { id: id, ...customer });
-    }
+  // only fields present in the request; undefined would be written as NULL
+  const fields = Object.fromEntries(
+    Object.entries(customer).filter(([, v]) => v !== undefined)
   );
+
+  sql.query("UPDATE customers SET ? WHERE id = ?", [fields, id], (err, res) => {
+    if (err) {
+      logError(err);
+      result(err, null);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    Customer.findById(id, result);
+  });
 };
 
 Customer.remove = (id, result) => {

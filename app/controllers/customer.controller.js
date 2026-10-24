@@ -67,9 +67,16 @@ exports.update = (req, res) => {
     });
   }
 
+  const customer = new Customer(req.body);
+  if (!Object.values(customer).some(v => v !== undefined)) {
+    return res.status(400).send({
+      message: "No updatable fields provided."
+    });
+  }
+
   Customer.updateById(
     req.params.customerId,
-    new Customer(req.body),
+    customer,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
